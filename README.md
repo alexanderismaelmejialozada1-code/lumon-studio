@@ -22,4 +22,4 @@ npm run build
 
 La salida estática se genera en `dist/` y se publica mediante Firebase Hosting.
 
-[Abrir Lumon Estudio](https://lumon-estudio-conector.web.app/)
+[Abrir Lumon Estudio](https://lumon-estudio.web.app/)
