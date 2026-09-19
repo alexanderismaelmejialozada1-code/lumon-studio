@@ -1,0 +1,45 @@
+:root {
+  color-scheme: dark;
+  --color-bg: #060e15;
+  --color-bg-elevated: #0a1722;
+  --color-blue-deep: #0c253c;
+  --color-steel: #2d4459;
+  --color-silver: #eaeff1;
+  --color-cyan: #08c1fa;
+  --color-blue-electric: #0664c5;
+  --color-text: #f4f7f9;
+  --color-text-muted: #a9bac8;
+  --color-border: #253746;
+  --font-sans: 'Manrope Variable', 'Manrope', 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-body: 1rem;
+  --font-small: 0.8125rem;
+  --font-h1: clamp(2.25rem, 1.15rem + 4.8vw, 5.25rem);
+  --font-h2: clamp(1.875rem, 1.15rem + 2.4vw, 3.25rem);
+  --line-body: 1.7;
+  --line-heading: 1.12;
+  --container: 80rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-section: clamp(4rem, 7vw, 7rem);
+  --radius: 0.25rem;
+  --duration: 160ms;
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-intro: 950ms;
+  --duration-reveal: 600ms;
+  --header-height: 4.5rem;
+  --z-header: 10;
+  --z-skip: 20;
+  --focus-outline: 2px solid var(--color-cyan);
+  --shadow-header: 0 8px 24px rgb(6 14 21 / 18%);
+  --glow-hero: radial-gradient(ellipse, rgb(8 193 250 / 9%), rgb(12 37 60 / 16%) 42%, transparent 72%);
+}
+
+@media (min-width: 64rem) {
+  :root { --header-height: 5rem; }
+}

@@ -1,0 +1,27 @@
+---
+const phrases = [
+  'Sitios web a tu medida.',
+  'Interfaces que impresionan.',
+  'Automatización inteligente.',
+  'IA para potenciar tu negocio.',
+  'Landing pages que conectan.',
+  'Diseño web a tu alcance.',
+];
+---
+<div class="hero-rotator" data-hero-rotator>
+  <p class="rotator-viewport">
+    <span class="sr-only">{phrases.join(' ')}</span>
+    {phrases.map((phrase, index) => <span class="rotator-phrase" data-hero-phrase data-current={index === 0 ? '' : undefined} aria-hidden="true">{phrase}</span>)}
+  </p>
+</div>
+<script>
+  import { initRotatingPhrases } from '../scripts/rotatingPhrases';
+  initRotatingPhrases();
+</script>
+<style>
+  .hero-rotator { width: min(100%, 56rem); margin: 1.25rem auto 0; text-shadow: 0 2px 12px #000; }
+  .rotator-viewport { display: grid; margin: 0; color: var(--color-cyan); font-size: clamp(1.25rem, 4.5vw, 1.5rem); font-weight: 700; line-height: 1.3; text-align: center; }
+  .rotator-phrase { grid-area: 1 / 1; visibility: hidden; text-wrap: balance; }
+  .rotator-phrase[data-current] { visibility: visible; }
+  @media (min-width: 48rem) { .rotator-viewport { font-size: clamp(1.75rem, 2.5vw, 2.5rem); } }
+</style>

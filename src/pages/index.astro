@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../sections/Hero.astro';
+
+import Services from '../sections/Services.astro';
+import ProjectSpotlight from '../sections/ProjectSpotlight.astro';
+import About from '../sections/About.astro';
+import Contact from '../sections/Contact.astro';
+import WhatsAppFloating from '../components/WhatsAppFloating.astro';
+---
+<BaseLayout>
+  <Header />
+  <main id="contenido" tabindex="-1">
+    <Hero />
+
+    <Services />
+    <ProjectSpotlight />
+    <About />
+    <Contact />
+  </main>
+  <WhatsAppFloating />
+  <Footer />
+<script>
+  import { initSurfaceMotion } from '../scripts/surfaceMotion';
+  initSurfaceMotion();
+</script>
+</BaseLayout>

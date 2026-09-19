@@ -1,0 +1,17 @@
+<section class="statement" aria-labelledby="statement-title">
+  <div class="container">
+    <div class="statement-rule" aria-hidden="true"></div>
+    <h2 id="statement-title"><span data-statement-line>Tecnología útil.</span> <span class="statement-follow" data-statement-line>Diseño que inspira confianza.</span></h2>
+  </div>
+</section>
+<style>
+  .statement { position: relative; padding-block: clamp(3.5rem, 9vw, 8.5rem) clamp(4rem, 10vw, 9rem); background: linear-gradient(180deg, rgb(12 37 60 / 10%), transparent 78%); }
+  .statement-rule { width: 2rem; height: 1px; margin-bottom: var(--space-5); background: var(--color-steel); }
+  h2 { max-width: 23ch; font-size: clamp(2.125rem, 1rem + 4.8vw, 5.5rem); line-height: 1.13; font-weight: 500; text-wrap: balance; }
+  h2 span { display: block; }
+  .statement-follow { color: var(--color-text-muted); }
+  @media (min-width: 48rem) {
+    .statement .container { padding-left: 8%; }
+    .statement-rule { width: 3rem; margin-bottom: var(--space-6); }
+  }
+</style>

@@ -1,0 +1,20 @@
+<section id="nosotros" class="about container" aria-labelledby="about-title" tabindex="-1">
+  <h2 id="about-title">Nosotros</h2>
+  <div class="about-copy">
+    <p class="about-lead">En Lumon Estudio ayudamos a pequeños negocios a dar el siguiente paso digital.</p>
+    <div class="about-body">
+      <p>Creamos páginas web, sistemas y soluciones digitales pensadas para hacer más fácil la forma en que un negocio se presenta, se organiza y trabaja.</p>
+      <p>Nuestro enfoque parte de entender primero cómo funciona cada negocio. No creemos en soluciones genéricas: analizamos lo que realmente necesita cada cliente y desarrollamos una propuesta clara, funcional y adaptada a su realidad.</p>
+      <p>Trabajamos con una visión simple: tecnología útil, bien diseñada y accesible para negocios reales.</p>
+      <p class="signature">Alexander Mejía</p>
+    </div>
+  </div>
+</section>
+<style>
+  .about { padding-block: clamp(6rem, 12vw, 11rem); }
+  .about-copy { display: grid; gap: var(--space-6); margin-top: clamp(3rem, 7vw, 6rem); }
+  .about-lead { max-width: 22ch; color: var(--color-silver); font-size: clamp(1.75rem, 1rem + 2.3vw, 3.25rem); line-height: 1.22; letter-spacing: -.03em; }
+  .about-body { display: grid; gap: var(--space-4); max-width: 61ch; color: var(--color-text-muted); }
+  .signature { padding-top: var(--space-5); border-top: 1px solid var(--color-border); color: var(--color-text); font: 600 .8125rem/1.5 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+  @media (min-width: 48rem) { .about-copy { grid-template-columns: 6fr 5fr; align-items: start; } .about-body { padding-top: .5rem; } }
+</style>

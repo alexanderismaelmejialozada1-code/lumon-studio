@@ -1,0 +1,48 @@
+---
+import poster from '../assets/motion/ribbon-poster.jpg';
+import desktopVideo from '../assets/motion/ribbon-desktop.webm?url';
+import mobileVideo from '../assets/motion/ribbon-mobile.webm?url';
+---
+<div class="hero-ribbon" data-light-ribbon aria-hidden="true">
+  <div class="ribbon-media">
+    <img class="ribbon-poster" src={poster.src} width="960" height="540" alt="" decoding="async" fetchpriority="high" />
+    <video class="ribbon-video" muted loop playsinline preload="none" tabindex="-1" disablepictureinpicture
+      data-desktop-src={desktopVideo} data-mobile-src={mobileVideo}></video>
+  </div>
+  <div class="ribbon-shade"></div>
+</div>
+<button class="ribbon-toggle" data-ribbon-toggle type="button" hidden aria-label="Pausar animación de fondo" aria-pressed="false" title="Pausar animación de fondo">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
+    <path data-ribbon-pause d="M4 3h3v10H4zm5 0h3v10H9z" />
+    <path data-ribbon-play d="m5 3 8 5-8 5z" />
+  </svg>
+</button>
+<script>
+  import { initLightRibbon } from '../scripts/lightRibbon';
+  initLightRibbon();
+</script>
+<style>
+  .hero-ribbon { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .ribbon-media { position: absolute; inset: 0; opacity: 0.55; mix-blend-mode: screen; }
+  .ribbon-poster, .ribbon-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 68% 50%; }
+  .ribbon-video { opacity: 0; transition: opacity var(--duration-reveal) var(--ease); }
+  [data-ready] .ribbon-video { opacity: 1; }
+  [data-ready] .ribbon-poster { opacity: 0; }
+  .ribbon-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(6 14 21 / 94%) 0%, rgb(6 14 21 / 88%) 45%, rgb(6 14 21 / 20%) 76%, var(--color-bg) 100%); }
+  .ribbon-toggle { position: absolute; bottom: 0.4rem; right: var(--gutter); z-index: 2; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgb(45 68 89 / 65%); background: rgb(6 14 21 / 72%); color: var(--color-text-muted); transition: border-color var(--duration) var(--ease), color var(--duration) var(--ease); }
+  .ribbon-toggle [data-ribbon-play], .ribbon-toggle[aria-pressed="true"] [data-ribbon-pause] { display: none; }
+  .ribbon-toggle[aria-pressed="true"] [data-ribbon-play] { display: initial; }
+  @media (max-width: 23rem) {
+    .ribbon-toggle { bottom: 2.25rem; }
+  }
+  @media (min-width: 48rem) {
+    .ribbon-shade { background: linear-gradient(90deg, var(--color-bg) 0%, rgb(6 14 21 / 94%) 22%, rgb(6 14 21 / 78%) 43%, rgb(6 14 21 / 12%) 78%), linear-gradient(0deg, var(--color-bg), transparent 28%, transparent 82%, rgb(6 14 21 / 55%)); }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .ribbon-toggle:hover { color: var(--color-silver); border-color: var(--color-text-muted); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ribbon-video { display: none; }
+    .ribbon-poster, [data-ready] .ribbon-poster { opacity: 1; }
+  }
+</style>

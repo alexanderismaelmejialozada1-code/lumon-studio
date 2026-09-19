@@ -1,0 +1,148 @@
+---
+import logo from '../assets/brand/logo-header.webp';
+import { site } from '../data/site';
+---
+<header class="site-header">
+  <div class="container header-grid">
+    <a class="brand" href="#inicio" aria-label="Lumon Estudio, inicio">
+      <img src={logo.src} width="40" height="40" alt="Lumon Estudio" />
+      <span class="wordmark" aria-hidden="true">LUMON <span>ESTUDIO</span></span>
+    </a>
+    <button class="menu-toggle" type="button" aria-controls="navegacion" aria-expanded="false" hidden>Menú</button>
+    <nav id="navegacion" class="navigation" aria-label="Principal">
+      <ul>
+        {site.navigation.map(({ label, href }) => <li><a href={href}>{label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = header?.querySelector<HTMLElement>('nav');
+  if (header && toggle && nav) {
+    const desktop = window.matchMedia('(min-width: 64rem)');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    let menuEntrance: Animation | null = null;
+    const stopEntrance = () => { menuEntrance?.cancel(); menuEntrance = null; };
+    let lastFocused: EventTarget | null = null;
+    const close = (restoreFocus = false) => {
+      stopEntrance();
+      header.removeAttribute('data-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.textContent = 'Menú';
+      if (restoreFocus) toggle.focus();
+    };
+    toggle.addEventListener('click', (event) => {
+      if (toggle.getAttribute('aria-expanded') === 'true') close();
+      else {
+        header.setAttribute('data-open', '');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.textContent = 'Cerrar';
+        if (event.detail > 0 && !reduce.matches && typeof nav.animate === 'function') {
+          stopEntrance();
+          menuEntrance = nav.animate([{ opacity: .75, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }], { duration: 180, easing: getComputedStyle(document.documentElement).getPropertyValue('--ease').trim() });
+        }
+      }
+    });
+    nav.addEventListener('click', (event) => {
+      if (event.target instanceof HTMLAnchorElement) {
+        close();
+        const target = document.querySelector<HTMLElement>(event.target.hash);
+        target?.focus({ preventScroll: true });
+      }
+    });
+    header.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && header.hasAttribute('data-open')) {
+        event.preventDefault();
+        close(true);
+      }
+    });
+    header.addEventListener('focusout', (event) => {
+      if (event.relatedTarget instanceof Node && !header.contains(event.relatedTarget)) {
+        lastFocused = null;
+        close();
+      }
+    });
+    header.addEventListener('focusin', (event) => {
+      lastFocused = event.target;
+    });
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Node && !header.contains(event.target)) {
+        lastFocused = null;
+        close();
+      }
+    });
+    desktop.addEventListener('change', () => {
+      const focusTarget = document.activeElement === document.body ? lastFocused : document.activeElement;
+      const navHadFocus = focusTarget instanceof Node && nav.contains(focusTarget);
+      close(!desktop.matches && navHadFocus);
+      if (desktop.matches && focusTarget === toggle) nav.querySelector<HTMLAnchorElement>('a')?.focus();
+    });
+    reduce.addEventListener('change', stopEntrance);
+    header.addEventListener('keydown', stopEntrance);
+    let scrollFrame = 0;
+    const updateSurface = () => {
+      header.toggleAttribute('data-scrolled', window.scrollY > 16);
+      scrollFrame = 0;
+    };
+    window.addEventListener('scroll', () => {
+      if (!scrollFrame) scrollFrame = requestAnimationFrame(updateSurface);
+    }, { passive: true });
+    window.addEventListener('pagehide', (event) => {
+      stopEntrance();
+      if (!event.persisted) { reduce.removeEventListener('change', stopEntrance); header.removeEventListener('keydown', stopEntrance); }
+      cancelAnimationFrame(scrollFrame);
+      scrollFrame = 0;
+    });
+    updateSurface();
+    header.setAttribute('data-enhanced', '');
+    toggle.hidden = false;
+  }
+</script>
+
+<style>
+  .site-header { position: relative; background: var(--color-bg); border-bottom: 1px solid rgb(45 68 89 / 45%); transition: background-color var(--duration) var(--ease), border-color var(--duration) var(--ease); }
+  .site-header[data-enhanced] { position: sticky; top: 0; z-index: var(--z-header); background: rgb(6 14 21 / 86%); }
+  .site-header[data-scrolled], .site-header[data-open] { background: rgb(6 14 21 / 96%); border-color: var(--color-border); }
+  .header-grid { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: var(--space-2); }
+  .brand { display: flex; align-items: center; gap: var(--space-2); min-width: 44px; min-height: calc(var(--header-height) - 1px); text-decoration: none; }
+  .brand img { width: 40px; height: 40px; object-fit: contain; }
+  .wordmark { display: none; font-size: 0.875rem; font-weight: 800; line-height: 1.3; letter-spacing: 0.07em; }
+  .wordmark span { display: block; font-size: 0.625rem; letter-spacing: 0.24em; color: var(--color-text-muted); }
+  .menu-toggle { justify-self: end; min-width: 54px; min-height: 44px; padding: var(--space-1); border: 0; border-radius: 2px; background: transparent; font-size: var(--font-small); color: var(--color-silver); }
+  .menu-toggle:hover { background: var(--color-bg-elevated); }
+  .menu-toggle[hidden] { display: block !important; visibility: hidden; }
+  .menu-toggle[aria-expanded="true"] { color: var(--color-cyan); }
+  .navigation { grid-column: 1 / -1; padding-block: var(--space-2) var(--space-4); }
+  .navigation ul { display: grid; list-style: none; padding: 0; margin: 0; }
+  .navigation li + li { border-top: 1px solid rgb(45 68 89 / 40%); }
+  .navigation a { display: flex; align-items: center; min-height: 52px; text-decoration: none; color: var(--color-silver); font-size: 1.25rem; letter-spacing: -0.025em; }
+  .navigation a:hover, .navigation a:focus-visible { color: var(--color-text); }
+  :global(.js) .site-header:not([data-open]) .navigation { display: none; }
+  @media (min-width: 48rem) {
+    .wordmark { display: block; }
+  }
+  @media (min-width: 64rem) {
+    .site-header { position: sticky; top: 0; z-index: var(--z-header); }
+    .header-grid { grid-template-columns: auto 1fr; column-gap: var(--space-5); }
+    .navigation, :global(.js) .site-header:not([data-open]) .navigation { display: block; grid-column: 2; grid-row: 1; padding: 0; justify-self: end; }
+    .navigation ul { display: flex; gap: var(--space-4); }
+    .navigation li + li { border: 0; }
+    .navigation a { font-size: 0.8125rem; letter-spacing: 0; color: var(--color-text-muted); }
+    .menu-toggle, .menu-toggle[hidden] { display: none !important; }
+  }
+  @supports (backdrop-filter: blur(8px)) {
+    @media (min-width: 64rem) {
+      .site-header[data-scrolled] { backdrop-filter: blur(8px); }
+    }
+  }
+  .navigation a { position: relative; }
+  .navigation a[aria-current] { color: var(--color-text); }
+  @media (min-width: 64rem) {
+    .navigation a::after { content: ''; position: absolute; inset: auto 0 .7rem; height: 1px; background: var(--color-cyan); transform: scaleX(0); transform-origin: left; transition: transform var(--duration) var(--ease); }
+    .navigation a[aria-current]::after { transform: scaleX(1); }
+  }
+  @media (min-width: 64rem) and (hover: hover) and (pointer: fine) { .navigation a:hover::after { transform: scaleX(1); } }
+</style>

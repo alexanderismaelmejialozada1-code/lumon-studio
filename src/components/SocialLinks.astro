@@ -1,0 +1,21 @@
+---
+import ArrowIcon from './ArrowIcon.astro';
+import { socialLinks } from '../data/site';
+interface Props { compact?: boolean; tiles?: boolean; }
+const { compact = false, tiles = false } = Astro.props;
+---
+<ul class:list={['social-links', { compact, tiles }]} aria-label="Redes sociales de Lumon Estudio">
+  {socialLinks.map(link => <li><a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}<ArrowIcon /><span class="sr-only"> (se abre en una pestaña nueva)</span></a></li>)}
+</ul>
+<style>
+  .social-links { display: flex; flex-wrap: wrap; gap: .5rem var(--space-4); margin: 0; padding: 0; list-style: none; }
+  a { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; color: var(--color-silver); text-decoration-thickness: 1px; }
+  a:hover { color: var(--color-cyan); }
+  .compact a { font-size: .8125rem; color: var(--color-text-muted); }
+  .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-1); }
+  .tiles a { width: 100%; justify-content: space-between; padding: .75rem; min-height: 52px; border: 1px solid var(--color-steel); border-radius: 12px; background: var(--color-bg-elevated); font-size: .8125rem; text-decoration: none; transition: border-color 180ms var(--ease), color 180ms var(--ease), transform 160ms var(--ease); }
+  .tiles a:active { transform: scale(.97); }
+  @media (max-width: 23rem) { .tiles { grid-template-columns: 1fr; } }
+  @media (hover: hover) and (pointer: fine) { .tiles a:hover { border-color: var(--color-cyan); color: var(--color-cyan); } }
+  @media (prefers-reduced-motion: reduce) { .tiles a { transition: none; } .tiles a:active { transform: none; } }
+</style>

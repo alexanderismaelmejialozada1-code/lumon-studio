@@ -1,0 +1,36 @@
+---
+import { whatsappHref } from '../data/site';
+import profileLogo from '../assets/brand/logo-header.png';
+---
+<div class="mascot-dock" data-whatsapp-dock data-profile-logo={profileLogo.src}>
+  <a class="mascot-contact" href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Contactar a Lumon Estudio por WhatsApp (se abre en una pestaña nueva)" aria-describedby="mascot-message">
+    <span class="mascot-message" id="mascot-message" role="tooltip"><strong>Contáctame ahora</strong><span>Conversemos por WhatsApp.</span></span>
+    <canvas class="mascot-canvas" aria-hidden="true"></canvas>
+    <img class="mascot-robot" src="/images/brand/lumon-contact-robot-poster.png" width="184" height="214" alt="" decoding="async" />
+  </a>
+</div>
+<script>
+  import { initRobotMascot } from '../scripts/robotMascot';
+  initRobotMascot();
+</script>
+<style>
+  .mascot-dock { position: fixed; right: calc(.625rem + env(safe-area-inset-right)); bottom: calc(.625rem + env(safe-area-inset-bottom)); z-index: 9; }
+  .mascot-contact { position: relative; display: block; width: 140px; height: 164px; border-radius: 12px; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+  .mascot-robot { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 7px 8px rgb(0 0 0 / 32%)); opacity: 1; pointer-events: none; transition: opacity 160ms var(--ease); }
+  .mascot-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; transition: opacity 160ms var(--ease); }
+  .mascot-dock[data-robot-state="ready"] .mascot-canvas { opacity: 1; }
+  .mascot-dock[data-robot-state="ready"] .mascot-robot { opacity: 0; }
+  .mascot-dock[data-robot-state="fallback"] .mascot-robot { opacity: 1; }
+  .mascot-message { position: absolute; bottom: calc(100% + .5rem); right: 0; width: max-content; max-width: min(240px, calc(100vw - 2rem)); padding: .75rem 1rem; border-radius: 12px 12px 2px 12px; background: #eaeff1; color: #102b3d; box-shadow: 0 6px 24px rgb(0 0 0 / 20%); opacity: 0; visibility: hidden; transform: translateY(4px); transform-origin: bottom right; transition: opacity 160ms var(--ease), transform 160ms var(--ease), visibility 160ms; }
+  .mascot-dock[data-message-open] .mascot-message { opacity: 1; visibility: visible; transform: none; }
+  .mascot-message::after { content: ''; position: absolute; inset: 100% 0 auto; height: .5rem; }
+  .mascot-message strong { display: block; font-size: .8125rem; font-weight: 700; }
+  .mascot-message span { display: block; margin-top: .25rem; font-size: .6875rem; color: #315a70; }
+  .mascot-contact:focus-visible { outline: 2px solid #08c1fa; outline-offset: 3px; box-shadow: 0 0 0 6px #102b3d; }
+  .mascot-contact:focus-visible .mascot-message { opacity: 1; visibility: visible; transform: none; transition: none; }
+  .mascot-dock[data-message-dismissed] .mascot-contact .mascot-message { opacity: 0; visibility: hidden; transition: none; }
+  @media (max-width: 47.99rem), (hover: none) and (pointer: coarse) { .mascot-dock { display: none; } }
+  @media (min-width: 48rem) { .mascot-dock { right: calc(1rem + env(safe-area-inset-right)); bottom: calc(1rem + env(safe-area-inset-bottom)); } .mascot-contact { width: 184px; height: 214px; } }
+  @media (hover: hover) and (pointer: fine) { .mascot-contact:hover .mascot-message { opacity: 1; visibility: visible; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .mascot-message, .mascot-canvas, .mascot-robot { transition: none; transform: none !important; } }
+</style>

@@ -1,0 +1,70 @@
+---
+import ArrowIcon from '../components/ArrowIcon.astro';
+import { site } from '../data/site';
+import onyxScreenshot from '../assets/project/onyx-desktop.webp';
+---
+<section id="proyectos" class="project-section" aria-labelledby="project-title" tabindex="-1" data-onyx-project>
+  <div class="container project-layout">
+    <div class="project-copy">
+      <p class="project-label" data-project-reveal>Proyecto destacado</p>
+      <h2 id="project-title" data-project-reveal>{site.project.name}</h2>
+      <p class="project-description" data-project-reveal>Una experiencia web cuidada, moderna y adaptable.</p>
+      <a class="button project-link" href={site.project.url} target="_blank" rel="noopener noreferrer" data-project-reveal>
+        Ver proyecto <ArrowIcon /><span class="sr-only"> (se abre en una pestaña nueva)</span>
+      </a>
+    </div>
+    <figure class="project-visual" data-project-visual>
+      <div class="laptop-entrance" data-laptop-entrance>
+        <div class="laptop" data-project-laptop>
+          <div class="laptop-display">
+            <span class="laptop-camera" aria-hidden="true"></span>
+            <div class="laptop-screen">
+              <img src={onyxScreenshot.src} width="1440" height="900" loading="lazy" decoding="async" alt="Portada real del proyecto web ONYX desarrollado por Lumon Estudio." />
+            </div>
+            <div class="laptop-chin" aria-hidden="true"></div>
+          </div>
+          <div class="laptop-base" aria-hidden="true">
+            <div class="laptop-keyboard">{Array.from({ length: 70 }, (_, i) => <span class:list={['laptop-key', { 'space-key': i === 63 }]} />)}</div>
+            <div class="laptop-trackpad"></div>
+            <div class="laptop-front-edge"></div>
+          </div>
+        </div>
+      </div>
+      <span class="laptop-ground" aria-hidden="true"></span>
+      <figcaption class="sr-only">Vista real de ONYX presentada en un portátil.</figcaption>
+    </figure>
+  </div>
+</section>
+<script>
+  import { initProjectMotion } from '../scripts/projectMotion';
+  initProjectMotion();
+</script>
+<style>
+  .project-section { --focus-outline: 2px solid #075474; position: relative; isolation: isolate; overflow: clip; padding-block: clamp(4rem, 8vw, 8rem); background: radial-gradient(ellipse at 72% 30%, #fafcfd, transparent 65%), linear-gradient(125deg, #e9eff3, #dce6ed); color: #102b3d; border-top: 1px solid #c0d0dc; border-bottom: 1px solid #c0d0dc; }
+  .project-layout { display: grid; gap: 2rem; }
+  .project-copy { position: relative; z-index: 2; align-self: center; }
+  .project-label { color: #315a70; font: 600 .6875rem/1.5 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+  h2 { color: #102b3d; font-size: clamp(3.75rem, 10vw, 6rem); font-weight: 600; letter-spacing: -.04em; margin-top: .75rem; }
+  .project-description { max-width: 30ch; margin-top: 1.25rem; color: #3d5869; font-size: .9375rem; line-height: 1.65; }
+  .project-link { margin-top: 1.75rem; border-color: #102b3d; background: #102b3d; color: #f4f7f9; }
+  .project-link::before { background: #075474; }
+  .project-link:focus-visible { outline-color: #075474; }
+  .project-visual { position: relative; margin: 0; aspect-ratio: 1.13; min-width: 0; perspective: 1400px; }
+  .laptop-entrance { position: absolute; width: 82%; left: 9%; top: 11%; }
+  .laptop { position: relative; transform-style: preserve-3d; transform: translateY(var(--laptop-y, 0px)) rotateX(var(--laptop-x, 8deg)) rotateY(var(--laptop-turn, -12deg)) rotateZ(-8deg); transition: transform 360ms var(--ease); }
+  .laptop-display { position: relative; padding: 1.7% 1.8% 0; border: 1px solid #788e9f; border-radius: clamp(.4rem, 1.1vw, .875rem); background: linear-gradient(135deg, #c3d0d9 0%, #657e91 36%, #c9d4dc 65%, #7892a4 100%); box-shadow: 3px 3px 0 #5c7588, 5px 5px 0 #8ba2b2, 0 1rem 2rem rgb(20 48 69 / 15%); }
+  .laptop-camera { position: absolute; top: .7%; left: 50%; width: 3px; height: 3px; border-radius: 50%; background: #183346; }
+  .laptop-screen { overflow: hidden; border: 2px solid #152d3e; border-radius: .25rem; background: #071017; aspect-ratio: 8 / 5; }
+  .laptop-screen img { width: 100%; height: 100%; object-fit: cover; }
+  .laptop-chin { height: clamp(6px, 1.2vw, 13px); }
+  .laptop-base { position: absolute; top: calc(100% - 2px); left: -4%; width: 108%; aspect-ratio: 2.35; transform-origin: center top; transform: rotateX(67deg); border-radius: .25rem .25rem .65rem .65rem; border: 1px solid #91a7b6; background: linear-gradient(115deg, #d4dee5, #9eb2c1 50%, #dce5eb); box-shadow: inset 0 0 0 2px rgb(245 249 252 / 60%), 0 5px 0 #7994a7, 0 7px 0 #afc2cf; }
+  .laptop-keyboard { position: absolute; inset: 9% 9% auto; height: 46%; display: grid; grid-template-columns: repeat(14, 1fr); grid-template-rows: repeat(5, 1fr); gap: clamp(1px, .25vw, 3px); padding: 1.2%; border-radius: .25rem; background: #8198aa; box-shadow: inset 0 2px 3px rgb(16 43 61 / 30%); }
+  .laptop-key { border-radius: 2px; background: linear-gradient(#354e61, #253d50); border-top: 1px solid #647d90; box-shadow: 0 1px 0 #172f42; }
+  .space-key { background: #425d70; }
+  .laptop-trackpad { position: absolute; left: 36%; bottom: 9%; width: 28%; height: 25%; border: 1px solid #8aa2b3; border-radius: .25rem; background: rgb(223 231 237 / 35%); box-shadow: inset 0 1px 2px rgb(51 81 103 / 9%); }
+  .laptop-front-edge { position: absolute; bottom: 0; left: 39%; width: 22%; height: 4%; background: #829eaf; border-radius: 0 0 50% 50%; }
+  .laptop-ground { position: absolute; z-index: -1; left: 14%; bottom: 3%; width: 75%; height: 12%; border-radius: 50%; background: radial-gradient(ellipse, rgb(26 55 75 / 19%), transparent 70%); filter: blur(12px); transform: rotate(-8deg); pointer-events: none; }
+  @media (min-width: 48rem) { .project-layout { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 2rem; align-items: center; } .project-visual { aspect-ratio: 1.08; } .project-description { font-size: 1rem; } }
+  @media (min-width: 64rem) { .project-layout { grid-template-columns: minmax(0, 3.5fr) minmax(0, 7.5fr); gap: clamp(2rem, 4vw, 4rem); } .project-visual { aspect-ratio: 1.18; } .laptop-entrance { width: 84%; left: 8%; top: 12%; } }
+  @media (prefers-reduced-motion: reduce) { .laptop { transition: none; transform: rotateZ(-4deg); } }
+</style>

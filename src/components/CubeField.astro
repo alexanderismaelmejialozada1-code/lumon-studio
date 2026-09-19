@@ -1,0 +1,18 @@
+<div class="cube-field" data-cube-field aria-hidden="true">
+  <svg class="cube-rest" width="100%" height="100%" focusable="false">
+    <defs><pattern id="cube-points" width="126" height="84" patternUnits="userSpaceOnUse"><g fill="#315b70"><rect x="60" y="40" width="1.2" height="1.2" /><rect x="66" y="40" width="1.2" height="1.2" /><rect x="60" y="44" width="1.2" height="1.2" /><rect x="66" y="44" width="1.2" height="1.2" /></g></pattern></defs>
+    <rect width="100%" height="100%" fill="url(#cube-points)" />
+  </svg>
+  <canvas data-cube-canvas></canvas>
+</div>
+<script>
+  import { initCubeField } from '../scripts/cubeField';
+  initCubeField();
+</script>
+<style>
+  .cube-field { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: #000; }
+  .cube-field canvas, .cube-rest { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+  .cube-field[data-cube-ready] .cube-rest { display: none; }
+  .cube-field::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgb(0 0 0 / 48%), rgb(0 0 0 / 32%) 43%, transparent 72%); }
+  @media (max-width: 47.99rem) { .cube-field::after { background: linear-gradient(180deg, rgb(0 0 0 / 30%), transparent); } }
+</style>

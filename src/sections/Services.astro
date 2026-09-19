@@ -1,0 +1,138 @@
+---
+import { services } from '../data/services';
+const labels = ['Sitios web', 'Landing pages', 'Sistemas web', 'Automatización', 'Diagnóstico digital', 'Mantenimiento web'];
+---
+<section id="servicios" class="services" aria-labelledby="services-title" tabindex="-1" data-service-gallery>
+  <div class="service-stage">
+    <div class="service-backdrops" aria-hidden="true">
+      {services.map((service, i) => <picture class="service-backdrop" data-service-image={i} data-active={i === 0 ? '' : undefined}>
+        <img src={`/images/services/${service.id}.webp`} width="1536" height="864" loading="lazy" decoding="async" alt="" />
+      </picture>)}
+    </div>
+    <div class="service-heading container">
+      <h2 id="services-title">Servicios</h2>
+      <p class="service-statement"><span>Tecnología útil.</span><span>Diseño que inspira confianza.</span></p>
+      <p class="service-hint"><span class="desktop-hint">Explora lo que podemos crear para tu negocio.</span><span class="mobile-hint">Toca un servicio para cambiar la imagen y abrir su detalle.</span></p>
+    </div>
+    <div class="service-deck" aria-label="Servicios de Lumon Estudio">
+      {services.map((service, i) => <article id={service.id} class="service-card" data-service-card={i} data-active={i === 0 ? '' : undefined} aria-labelledby={`${service.id}-title`}>
+        <button class="service-selector" type="button" data-service-select={i} aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`${service.id}-preview`}>
+          <span class="service-number" aria-hidden="true">{service.number}</span>
+          <span class="service-label">{labels[i]}</span>
+          <svg class="service-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg>
+        </button>
+        <div class="service-preview" id={`${service.id}-preview`} data-service-preview>
+          <h3 id={`${service.id}-title`}>{service.title}</h3>
+          <p>{service.description}</p>
+          <a class="service-more" href={`#detalle-${service.id}`} data-service-more={i}>Ver alcance del servicio <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>)}
+    </div>
+    <div class="service-mobile-action" aria-live="polite">
+      {services.map((service, i) => <a class="service-mobile-detail" href={`#detalle-${service.id}`} data-service-more={i} data-service-mobile-detail={i} data-active={i === 0 ? '' : undefined}>Ver {labels[i]} <span aria-hidden="true">↗</span></a>)}
+    </div>
+  </div>
+  <div class="service-library container" data-service-library>
+    <button class="service-return" type="button" data-service-return hidden>← Volver a los servicios</button>
+    {services.map((service, i) => <article id={`detalle-${service.id}`} class="service-full" data-service-full={i} aria-labelledby={`detalle-${service.id}-title`} tabindex="-1">
+      <h3 id={`detalle-${service.id}-title`}>{service.title}</h3>
+      <dl>
+        <div><dt>Qué hacemos</dt><dd>{service.description}</dd></div>
+        {'capabilities' in service && <div><dt>Pueden ayudar a organizar, según el proyecto:</dt><dd><ul>{service.capabilities.map(item => <li>{item}{item === 'reportes simples' ? '.' : ';'}</li>)}</ul></dd></div>}
+        <div><dt>Para quién sirve</dt><dd>{service.audience}</dd></div>
+        <div><dt>Resultado</dt><dd>{service.result}</dd></div>
+      </dl>
+      {'notice' in service && <p class="service-notice">{service.notice}</p>}
+    </article>)}
+  </div>
+</section>
+<script>
+  import { initServiceGallery } from '../scripts/serviceGallery';
+  initServiceGallery();
+</script>
+<style>
+  .services { padding-block: 1px var(--space-section); }
+  .service-stage { position: relative; isolation: isolate; overflow: clip; min-height: 52rem; background: var(--color-bg); }
+  .service-backdrops, .service-backdrop { position: absolute; inset: 0; z-index: -2; }
+  .service-backdrop { opacity: 0; transition: opacity 520ms var(--ease); }
+  .service-backdrop[data-active] { opacity: 1; }
+  .service-backdrop img { width: 100%; height: 100%; object-fit: cover; object-position: 66% center; }
+  .service-stage::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgb(6 14 21 / 80%) 0%, rgb(6 14 21 / 56%) 35%, rgb(6 14 21 / 10%) 60%, rgb(6 14 21 / 60%) 100%); }
+  .service-heading { position: relative; text-align: center; padding-top: 3rem; }
+  h2 { font: 500 .875rem/1.5 var(--font-mono); color: var(--color-cyan); }
+  .service-statement { max-width: 22ch; margin: 1.25rem auto 0; font-size: clamp(2rem, 1rem + 4vw, 4.5rem); font-weight: 500; line-height: 1.14; letter-spacing: -.04em; text-wrap: balance; text-shadow: 0 2px 16px rgb(0 0 0 / 60%); }
+  .service-statement span { display: block; }
+  .service-statement span + span { color: var(--color-silver); }
+  .service-hint { margin-top: 1.25rem; font-size: .8125rem; color: var(--color-silver); }
+  .desktop-hint { display: none; }
+  .service-deck { position: absolute; bottom: 0; width: 100%; display: flex; gap: .75rem; height: 26rem; align-items: end; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; padding-inline: var(--gutter); scrollbar-width: thin; scrollbar-color: var(--color-steel) transparent; }
+  .service-card { flex: 0 0 min(80vw, 21rem); height: 25rem; position: relative; scroll-snap-align: center; background: rgb(6 14 21 / 94%); border: 1px solid rgb(169 186 200 / 28%); border-bottom: 0; transform: translateY(calc(100% - 7rem)); transition: transform 440ms var(--ease), background-color 440ms var(--ease), border-color 240ms var(--ease); }
+  .service-card[data-active] { transform: translateY(0); background: rgb(10 23 34 / 96%); border-color: var(--color-cyan); box-shadow: 0 12px 36px rgb(0 0 0 / 25%); }
+  .service-selector { width: 100%; height: 7rem; border: 0; background: transparent; display: grid; grid-template-columns: 1fr auto; align-content: center; gap: .5rem; padding: 1.25rem; text-align: left; }
+  .service-number { grid-column: 1 / -1; color: var(--color-text-muted); font: 500 .6875rem/1.5 var(--font-mono); }
+  .service-label { font-size: 1rem; font-weight: 600; line-height: 1.3; }
+  .service-arrow { color: var(--color-cyan); transition: transform 440ms var(--ease); }
+  .service-card[data-active] .service-arrow { transform: rotate(-45deg); }
+  .service-preview { padding: 0 1.25rem 1.5rem; opacity: 0; visibility: hidden; transition: opacity 200ms var(--ease); }
+  .service-card[data-active] .service-preview { opacity: 1; visibility: visible; transition-delay: 90ms; }
+  .service-preview h3 { font-size: .875rem; line-height: 1.5; color: var(--color-cyan); margin-bottom: .75rem; }
+  .service-preview p { font-size: .875rem; line-height: 1.65; color: var(--color-silver); }
+  .service-more { display: flex; gap: .625rem; align-items: center; margin-top: 1.5rem; min-height: 44px; font-size: .75rem; font-weight: 600; text-decoration-thickness: 1px; }
+  .service-selector:focus-visible { outline-offset: -6px; }
+  .service-mobile-action { display: none; }
+  .service-more:focus-visible { outline-offset: 3px; }
+  .service-library { padding-top: var(--space-6); }
+  .service-full { border-top: 1px solid var(--color-border); padding-block: 2.5rem; max-width: 60rem; margin-inline: auto; }
+  .service-full h3 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+  dl { display: grid; gap: 1.5rem; margin-top: 2rem; }
+  dt { font-size: .8125rem; color: var(--color-text-muted); margin-bottom: .5rem; }
+  dd { margin: 0; max-width: 68ch; }
+  dd ul { padding-left: 1.25rem; }
+  .service-notice { margin-top: 1.5rem; color: var(--color-cyan); }
+  .service-return { min-height: 48px; padding: .75rem 1rem; border: 1px solid var(--color-steel); background: transparent; margin-bottom: 1.5rem; }
+  [data-gallery-ready] .service-library:not([data-expanded]), [data-gallery-ready] .service-full:not([data-full-active]) { display: none; }
+  .services:not([data-gallery-ready]) .service-stage { min-height: auto; padding-bottom: 2rem; }
+  .services:not([data-gallery-ready]) .service-deck { position: relative; height: auto; display: grid; grid-template-columns: 1fr; overflow: visible; margin-top: 3rem; }
+  .services:not([data-gallery-ready]) .service-card { height: auto; transform: none; }
+  .services:not([data-gallery-ready]) .service-preview { opacity: 1; visibility: visible; }
+  @media (max-width: 47.99rem) {
+    .service-stage { min-height: max(35rem, calc(100svh - var(--header-height) - 2rem)); display: flex; flex-direction: column; }
+    .service-backdrops { inset: 0 0 13rem; }
+    .service-backdrop img { object-position: center; }
+    .service-stage::before { background: linear-gradient(180deg, rgb(6 14 21 / 72%) 0%, rgb(6 14 21 / 38%) 32%, rgb(6 14 21 / 10%) 54%, rgb(6 14 21 / 88%) 82%, var(--color-bg) 100%); }
+    .service-heading { padding-top: 2rem; }
+    .service-statement { max-width: 19ch; font-size: clamp(1.875rem, 7.8vw, 2.5rem); }
+    .service-hint { max-width: 31ch; margin-inline: auto; line-height: 1.5; }
+    .service-deck { position: relative; bottom: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 4.75rem; gap: .5rem; width: auto; height: auto; overflow: visible; padding: 0 var(--gutter); margin-top: auto; scroll-snap-type: none; }
+    .service-card { min-width: 0; width: auto; height: 4.75rem; transform: none; border-bottom: 1px solid rgb(169 186 200 / 28%); background: rgb(6 14 21 / 82%); }
+    .service-card[data-active] { transform: translateY(-.125rem); background: rgb(8 30 44 / 92%); box-shadow: 0 8px 22px rgb(0 0 0 / 20%); }
+    .service-selector { height: 100%; grid-template-columns: 1fr auto; gap: .125rem .5rem; padding: .625rem .6875rem; }
+    .service-number { grid-column: 1 / -1; font-size: .5625rem; line-height: 1.2; }
+    .service-label { align-self: start; font-size: clamp(.6875rem, 3.2vw, .8125rem); line-height: 1.15; }
+    .service-arrow { width: 16px; height: 16px; align-self: center; }
+    .service-preview { display: none; }
+    .service-mobile-action { display: flex; min-height: 3.75rem; padding: .625rem var(--gutter) 1rem; }
+    .service-mobile-detail { display: none; align-items: center; justify-content: center; gap: .625rem; width: 100%; min-height: 44px; padding: .5rem 1rem; border: 1px solid rgb(164 244 253 / 58%); background: rgb(6 23 35 / 86%); color: var(--color-text); font-size: .75rem; font-weight: 650; text-decoration: none; }
+    .service-mobile-detail[data-active] { display: inline-flex; }
+    .service-mobile-detail span { color: var(--color-cyan); font-size: 1rem; }
+    .services:not([data-gallery-ready]) .service-deck { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 2rem; }
+    .services:not([data-gallery-ready]) .service-card { height: auto; min-height: 4.75rem; }
+    .services:not([data-gallery-ready]) .service-preview { display: none; }
+  }
+  @media (min-width: 48rem) { .service-heading { padding-top: 4rem; } .service-stage { min-height: 56rem; } .service-card { flex-basis: 20rem; } }
+  @media (min-width: 75rem) {
+    .service-stage { min-height: max(40rem, calc(100svh - var(--header-height) - 1.5rem)); }
+    .service-statement { max-width: 26ch; font-size: clamp(2.5rem, 4vw, 3.5rem); } .service-heading { padding-top: 3rem; }
+    .service-deck { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .625rem; overflow: hidden; padding-inline: max(var(--gutter), calc((100vw - 90rem)/2)); height: 25rem; }
+    .service-card { height: 24rem; }
+    .service-selector { padding: 1rem; }
+    .service-label { font-size: .875rem; }
+    .service-preview { padding-inline: 1rem; }
+    .service-preview p { font-size: .8125rem; }
+    .service-preview h3 { font-size: .8125rem; }
+    .service-more { font-size: .6875rem; margin-top: 1rem; }
+    .services:not([data-gallery-ready]) .service-deck { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (hover: hover) and (pointer: fine) { .desktop-hint { display: inline; } .mobile-hint { display: none; } .service-selector:hover { color: var(--color-cyan); } }
+  @media (prefers-reduced-motion: reduce) { .service-card, .service-preview, .service-backdrop, .service-arrow { transition: none; } }
+</style>

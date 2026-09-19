@@ -1,0 +1,57 @@
+---
+
+import { site, whatsappHref } from '../data/site';
+import CubeField from '../components/CubeField.astro';
+import ArrowIcon from '../components/ArrowIcon.astro';
+import RotatingPhrases from '../components/RotatingPhrases.astro';
+---
+<section id="inicio" class="hero" aria-labelledby="hero-title" tabindex="-1">
+  <CubeField />
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow" data-intro="eyebrow">LUMON ESTUDIO · SOLUCIONES DIGITALES</p>
+      <h1 id="hero-title" data-intro="title"><span class="title-mask"><span class="hero-title-line">Soluciones digitales </span></span><span class="title-mask"><span class="hero-title-line">que se ven tan bien </span></span><span class="title-mask"><span class="hero-title-line hero-emphasis">como funcionan<span class="hero-dot">.</span></span></span></h1>
+      <RotatingPhrases />
+      <p class="hero-description" data-intro="copy">Creamos sitios web, sistemas y automatizaciones para pequeños negocios que quieren generar más confianza, organizarse mejor y crecer en internet.</p>
+      <div class="hero-actions" data-intro="actions">
+        <a class="button" href={whatsappHref} target="_blank" rel="noopener noreferrer">{site.cta.primary}<ArrowIcon direction="right" /><span class="sr-only"> (se abre en una pestaña nueva)</span></a>
+        <a class="button button-secondary" href="#proyectos">{site.cta.secondary}<ArrowIcon /></a>
+      </div>
+      <p class="microcopy" data-intro="microcopy">Diagnóstico inicial sin compromiso.</p>
+    </div>
+  </div>
+</section>
+<script>
+  import { initIntroMotion } from '../scripts/introMotion';
+  initIntroMotion();
+</script>
+<style>
+  .hero { position: relative; isolation: isolate; overflow: clip; min-height: calc(100svh - var(--header-height)); display: grid; align-items: center; padding-block: 2.25rem 3rem; background: #000; }
+  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .hero-copy { position: relative; z-index: 1; width: min(100%, 64rem); text-align: center; }
+  .eyebrow { display: flex; align-items: center; justify-content: center; gap: .625rem; font: 500 .625rem/1.5 var(--font-mono); letter-spacing: .065em; color: var(--color-text-muted); margin-bottom: var(--space-4); }
+  .eyebrow::before { content: ''; flex: 0 0 20px; height: 1px; background: var(--color-cyan); }
+  h1 { max-width: 17ch; margin-inline: auto; line-height: 1.08; letter-spacing: -.04em; text-wrap: balance; text-shadow: 0 2px 16px #000; }
+  .title-mask { display: contents; }
+  .hero-emphasis { color: var(--color-silver); font-weight: 500; }
+  .hero-dot { color: var(--color-cyan); }
+  .hero-description { color: var(--color-text-muted); max-width: 46ch; margin: 1.25rem auto 0; font-size: .9375rem; line-height: 1.75; text-shadow: 0 1px 6px #000; }
+  .hero-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4); }
+  .hero-actions .button { padding-inline: var(--space-3); font-size: .8125rem; }
+  .hero-actions .button-secondary { border-color: rgb(169 186 200 / 30%); }
+  .microcopy { font-size: .6875rem; color: var(--color-text-muted); margin-top: var(--space-3); text-shadow: 0 1px 6px #000; }
+  @media (min-width: 48rem) {
+    .hero { padding-block: 4rem; }
+    h1 { max-width: none; font-size: clamp(2.5rem, 4.7vw, 5rem); line-height: 1.09; }
+    .title-mask { display: block; overflow: clip; padding-bottom: .07em; margin-bottom: -.07em; }
+    .hero-title-line { display: block; }
+    .hero-description { font-size: var(--font-body); }
+    .hero-actions .button { padding-inline: var(--space-4); font-size: .875rem; }
+  }
+  @media (min-width: 64rem) {
+    .hero { min-height: min(52rem, calc(100svh - var(--header-height))); padding-block: 4.5rem; }
+    .eyebrow { font-size: .6875rem; margin-bottom: var(--space-5); }
+    .hero-description { margin-top: var(--space-5); }
+    .hero-actions { margin-top: var(--space-5); }
+  }
+</style>
